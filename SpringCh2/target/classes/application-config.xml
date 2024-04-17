@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<bean id="helloService" class="com.example.myapp.aop.HelloService"></bean>
+	<bean id="helloController" class="com.example.myapp.aop.HelloController">
+		<property name="service" ref="helloService"></property>
+	</bean>
+	
+	<bean id="helloLog" class="com.example.myapp.aop.HelloLog"></bean>
+	
+	<!-- <aop:config>
+		<aop:pointcut id="hello" expression="execution(* com.example..HelloService.sayHello(..))"/>
+		
+		<aop:aspect ref="helloLog">
+			<aop:before pointcut-ref="hello" method="log"/>
+			<aop:after pointcut-ref="hello" method="log"/>
+			
+			<aop:after-returning method="resultLog" pointcut-ref="hello" returning="resultObj"/>
+			<aop:after-throwing method="exceptionLog" pointcut-ref="hello" throwing="exception" />
+			
+			<aop:around method="aroundLog" pointcut-ref="hello"/>
+		</aop:aspect>
+	</aop:config> -->
+	
+	<aop:aspectj-autoproxy/>
+	
+</beans>
