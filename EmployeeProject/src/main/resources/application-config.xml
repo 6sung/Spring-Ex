@@ -2,8 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- 데이터 소스 설정 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
@@ -19,5 +23,26 @@
 	</bean>
 
 	<!-- 사용자 bean -->
-	<context:component-scan base-package="com.example.myapp.jdbc"/>
+	<context:component-scan base-package="com.example.myapp.hr"/>
+	
+	<!-- 트랜잭션매니저 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 아노테이션을 이용한 트랜잭션 설정 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- 트랜잭션 설정 -->
+	<!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="*" rollback-for="java.lang.RuntimeException"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.example.myapp..*Service.*(..))" id="txPointcut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+	</aop:config> -->
 </beans>
