@@ -143,7 +143,8 @@ public class EmpRepository implements IEmpRepository{
 	public List<Map<String, Object>> getAllManagerId() {
 		String sql = "select "
 				+ " d.manager_id as managerId, e.first_name as firstName "
-				+ " join employees e on d.manager_id=e.employee_id "
+				+ " from employees e "
+				+ " join departments d on d.manager_id=e.employee_id "
 				+ " order by d.manager_id";
 		return jdbcTemplate.queryForList(sql);
 	}

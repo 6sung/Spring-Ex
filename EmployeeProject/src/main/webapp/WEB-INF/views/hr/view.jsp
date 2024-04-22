@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-${message}
-<h1>사원의 수 : ${count}</h1>
-<a href="./count">사원의 수</a>
+${emp}
 </body>
 </html>
