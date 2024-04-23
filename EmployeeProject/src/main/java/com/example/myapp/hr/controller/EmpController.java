@@ -1,5 +1,7 @@
 package com.example.myapp.hr.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +43,7 @@ public class EmpController {
 		return "hr/insertform";
 	}
 	
-	@PostMapping("/hr/insert")
+	@PostMapping(value="/hr/insert")
 	public String insertEmp(Emp emp, RedirectAttributes model) {
 		try {
 			empService.insertEmp(emp);
@@ -58,5 +60,57 @@ public class EmpController {
 		Emp emp = empService.getEmpInfo(employeeId);
 		model.addAttribute("emp",emp);
 		return "hr/view";
+	}
+	
+	@GetMapping("/hr/list")
+	public String getEmps(Model model) {
+		List<Emp> empList = empService.getEmpList();
+		model.addAttribute("empList",empList);
+		return "hr/list";
+	}
+	
+	@GetMapping("/hr/update")
+	public String updateEmp(int empid, Model model) {
+		model.addAttribute("emp",empService.getEmpInfo(empid));
+		model.addAttribute("deptList",empService.getAllDeptId());
+		model.addAttribute("jobList",empService.getAllJobId());
+		model.addAttribute("managerList",empService.getAllManagerId());
+		return "hr/updateform";
+	}
+	
+	@PostMapping(value="/hr/update")
+	public String updateEmp(Emp emp, RedirectAttributes redirectAttributes) {
+		try {
+			empService.updateEmp(emp);
+			redirectAttributes.addFlashAttribute("message", emp.getEmployeeId() + "번 사원정보가 수정되었습니다");
+		}catch(RuntimeException e) {
+			redirectAttributes.addFlashAttribute("message",e.getMessage());
+		}
+		return "redirect:/hr/"+emp.getEmployeeId();
+	}
+	
+	@GetMapping(value="/hr/delete")
+	public String deleteEmp(int empid, Model model) {
+		model.addAttribute("emp",empService.getEmpInfo(empid));
+		return "hr/deleteform";
+	}
+	
+	@PostMapping(value="/hr/delete")
+	public String deleteEmp(int empid, String email, RedirectAttributes model) {
+		try {
+			int deletedRow = empService.deleteEmp(empid,email);
+			if(deletedRow>0) {
+				model.addFlashAttribute("message",empid+"번 사원정보가 삭제되었습니다.");
+				return "redirect:/hr/list";
+			}
+			else {
+				model.addAttribute("message","ID 또는 Email이 다름니다");
+				model.addAttribute("emp",empService.getEmpInfo(empid));
+				return "hr/deleteform";
+			}
+		}catch(RuntimeException e) {
+			model.addFlashAttribute("message", e.getMessage());
+			return "redirect:/hr/list";
+		}
 	}
 }

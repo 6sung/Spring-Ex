@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,13 @@
 			</tr>
 			<tr>
 				<th>직무</th>
-				<td><input type="text" name="jobId"></td>
+				<td>
+					<select name="jobId">
+						<c:forEach var="job" items="${jobList}">
+							<option value="${job.jobId}">${job.jobTitle}</option>
+						</c:forEach>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th>급여</th>
@@ -46,11 +53,25 @@
 			</tr>
 			<tr>
 				<th>매니저ID</th>
-				<td><input type="text" name="managerId"></td>
+				<td>
+					<select name="managerId">
+					<c:forEach var="manager" items="${managerList}">
+						<option value="${manager.managerId}">${manager.firstName}</option>
+					</c:forEach>
+					
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th>부서번호</th>
-				<td><input type="text" name="departmentId"></td>
+				<td>
+					<select name="departmentId">
+					<c:forEach var="department" items="${deptList }">
+						<option value="${department.departmentId }">${department.departmentName}</option>
+					</c:forEach>
+					
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center">

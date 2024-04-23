@@ -9,6 +9,7 @@
 <body>
 ${message}
 <h1>사원의 수 : ${count}</h1>
-<a href="./count">사원의 수</a>
+<a href="./count">사원의 수</a><p>
+<a href="list"=${emp.employeeId}">전체 사원 조회</a>
 </body>
 </html>
