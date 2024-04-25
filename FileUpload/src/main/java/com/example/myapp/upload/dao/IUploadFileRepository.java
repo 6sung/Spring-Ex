@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.myapp.upload.model.UploadFile;
+import com.example.myapp.upload.model.UploadFileDto;
 
 public interface IUploadFileRepository {
 	int getMaxFileId();
@@ -20,4 +21,11 @@ public interface IUploadFileRepository {
 	void updateCategory(Map<String, Object> map);
 	
 	void deleteFile(int fileId);
+	
+	void uploadFile2(UploadFileDto file);
+
+	int getMaxFileId2();
+
+	List<UploadFileDto> getAllFileList2();
+	UploadFileDto getFile2(int fileId);
 }

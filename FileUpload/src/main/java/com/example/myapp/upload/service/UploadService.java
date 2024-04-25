@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.myapp.upload.dao.IUploadFileRepository;
 import com.example.myapp.upload.model.UploadFile;
+import com.example.myapp.upload.model.UploadFileDto;
 
 @Service
 public class UploadService implements IUploadFileService{
@@ -66,6 +67,32 @@ public class UploadService implements IUploadFileService{
 
 	@Override
 	public void deleteFile(int fileId) {
+		// TODO Auto-generated method stub
+		uploadFileRepository.deleteFile(fileId);
+	}
+
+	@Override
+	public void uploadFile2(UploadFileDto file) {
+		// TODO Auto-generated method stub
+		int fileId = uploadFileRepository.getMaxFileId2();
+		file.setFileId(fileId+1);
+		uploadFileRepository.uploadFile2(file);
+	}
+	
+	@Override
+	public List<UploadFileDto> getAllFileList2() {
+		// TODO Auto-generated method stub
+		return uploadFileRepository.getAllFileList2();
+	}
+	
+	@Override
+	public UploadFileDto getFile2(int fileId) {
+		// TODO Auto-generated method stub
+		return uploadFileRepository.getFile2(fileId);
+	}
+	
+	@Override
+	public void deleteFile2(int fileId) {
 		// TODO Auto-generated method stub
 		uploadFileRepository.deleteFile(fileId);
 	}

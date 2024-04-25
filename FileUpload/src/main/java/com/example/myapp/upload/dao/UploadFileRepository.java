@@ -18,6 +18,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.myapp.upload.model.UploadFile;
+import com.example.myapp.upload.model.UploadFileDto;
 
 @Repository
 public class UploadFileRepository implements IUploadFileRepository {
@@ -172,5 +173,77 @@ public class UploadFileRepository implements IUploadFileRepository {
 				return file;
 			}		
 		}, categoryName);
+	}
+	
+	@Override
+	public int getMaxFileId2() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT NVL(MAX(file_id),0) FROM upload_file2";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	@Override
+	public void uploadFile2(UploadFileDto file) {
+		// TODO Auto-generated method stub
+		String sql = "insert into upload_file2 "
+				+ " (file_id, category_name, file_name, uuid_file_name, "
+				+ " file_size, file_content_type, file_upload_date) "
+				+ " values (?,?,?,?,?,?,SYSTIMESTAMP)";
+		jdbcTemplate.update(sql,
+				file.getFileId(),
+				file.getCategoryName(),
+				file.getFileName(),
+				file.getUuidFileName(),
+				file.getFileSize(),
+				file.getFileContentType());
+	}
+	
+	@Override
+	public List<UploadFileDto> getAllFileList2() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT file_id, category_name, file_name, uuid_file_name, file_size, "
+				+ " file_content_type, file_upload_date "
+				+ " from upload_file2 ORDER BY file_upload_date DESC";
+		return jdbcTemplate.query(sql, new RowMapper<UploadFileDto>() {
+
+			@Override
+			public UploadFileDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+				UploadFileDto file = new UploadFileDto();
+				file.setFileId(rs.getInt("file_id"));
+				file.setCategoryName(rs.getString("category_name"));
+				file.setFileName(rs.getString("file_name"));
+				file.setUuidFileName(rs.getString("uuid_file_name"));
+				file.setFileSize(rs.getLong("file_size"));
+				file.setFileContentType(rs.getString("file_content_type"));
+				file.setFileUploadDate(rs.getTimestamp("file_upload_date"));
+				// TODO Auto-generated method stub
+				return file;
+			}
+		});
+	}
+	
+	@Override
+	public UploadFileDto getFile2(int fileId) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT file_id, category_name, file_name, uuid_file_name, file_size, "
+				+ " file_content_type, file_upload_date "
+				+ " from upload_file2 where file_id=?";
+		return jdbcTemplate.queryForObject(sql, new RowMapper<UploadFileDto>() {
+
+			@Override
+			public UploadFileDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				UploadFileDto file = new UploadFileDto();
+				file.setFileId(rs.getInt("file_id"));
+				file.setCategoryName(rs.getString("category_name"));
+				file.setFileName(rs.getString("file_name"));
+				file.setUuidFileName(rs.getString("uuid_file_name"));
+				file.setFileSize(rs.getLong("file_size"));
+				file.setFileContentType(rs.getString("file_content_type"));
+				file.setFileUploadDate(rs.getTimestamp("file_upload_date"));
+				
+				return file;
+			}
+			
+		}, fileId);
 	}
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>파일 업로드</h1>
-<c:url var="actionURL" value='/file/new'/>
+<c:url var="#" value='/file/new'/>
 <form action="${actionURL}" method="post" enctype="multipart/form-data">
 	카테고리 : <select name="category">
 		<option value="/">/
